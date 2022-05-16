@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:zupay_task/models/ShoppingItem.dart';
 import 'package:zupay_task/models/allitems.dart';
 import 'dart:developer';
+import 'package:provider/provider.dart';
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) => AllShoppingItems(), child: homePage());
+  }
+}
 
 class homePage extends StatefulWidget {
   const homePage({Key? key}) : super(key: key);
@@ -11,11 +22,25 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
+  late final Future gettingdata;
+  @override
+  void initState() {
+    gettingdata =
+        Provider.of<AllShoppingItems>(context, listen: false).getdata();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double hfactor = MediaQuery.of(context).size.height / 716;
     double wfactor = MediaQuery.of(context).size.width / 375;
     return Scaffold(
+      bottomNavigationBar: Container(
+        height: 96 * hfactor,
+        child: Row(
+          children: [],
+        ),
+      ),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(hfactor * 152),
         child: Container(
@@ -48,27 +73,35 @@ class _homePageState extends State<homePage> {
           ),
         ),
       ),
-      body: FutureBuilder(
-          future: AllShoppingItems.getdata(),
-          builder: (context, snap) {
-            if (snap.connectionState != ConnectionState.done)
-              return Center(child: CircularProgressIndicator());
-            else {
-              log(AllShoppingItems.items.length.toString() + "   home page");
-              return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 13 * hfactor,
-                    crossAxisSpacing: 13 * wfactor,
-                    childAspectRatio: (wfactor * 165) / (300 * hfactor)),
-                itemBuilder: (context, index) {
-                  return GridTile(
-                      child: ShoppingProd(AllShoppingItems.items[index]));
-                },
-                itemCount: AllShoppingItems.items.length,
-              );
-            }
-          }),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Provider.of<AllShoppingItems>(context, listen: false).getdata();
+        },
+        child: FutureBuilder(
+            future: gettingdata,
+            builder: (context, snap) {
+              if (snap.connectionState != ConnectionState.done)
+                return Center(child: CircularProgressIndicator());
+              else {
+                // log(AllShoppingItems.items.length.toString() + "   home page");
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 13 * hfactor,
+                      crossAxisSpacing: 13 * wfactor,
+                      childAspectRatio: (wfactor * 165) / (300 * hfactor)),
+                  itemBuilder: (context, index) {
+                    return GridTile(
+                        child: ShoppingProd(
+                            Provider.of<AllShoppingItems>(context)
+                                .items[index]));
+                  },
+                  itemCount:
+                      Provider.of<AllShoppingItems>(context).items.length,
+                );
+              }
+            }),
+      ),
     );
   }
 }
