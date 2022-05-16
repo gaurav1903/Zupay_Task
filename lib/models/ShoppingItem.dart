@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class SingleItem {
   final int id, count;
-  final String title, description, category, imageUrl;
-  final double price, rate;
+  final String title, description, category, imageUrl, price, rate;
   SingleItem(
       {required this.title,
       required this.rate,

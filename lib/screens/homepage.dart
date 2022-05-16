@@ -13,10 +13,11 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
+    double hfactor = MediaQuery.of(context).size.height / 716;
+    double wfactor = MediaQuery.of(context).size.width / 375;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 152 / 716),
+        preferredSize: Size.fromHeight(hfactor * 152),
         child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -25,10 +26,10 @@ class _homePageState extends State<homePage> {
                   colors: [Color(0xFFF3F4F6), Color(0x00F3F4F6)])),
           child: Padding(
             padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 64 / 716,
-                left: MediaQuery.of(context).size.height * 24 / 716,
-                right: MediaQuery.of(context).size.height * 24 / 716,
-                bottom: MediaQuery.of(context).size.height * 19 / 716),
+                top: hfactor * 64,
+                left: hfactor * 24,
+                right: wfactor * 24,
+                bottom: wfactor * 19),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(
@@ -53,12 +54,16 @@ class _homePageState extends State<homePage> {
             if (snap.connectionState != ConnectionState.done)
               return Center(child: CircularProgressIndicator());
             else {
-              log(AllShoppingItems.items.length.toString());
+              log(AllShoppingItems.items.length.toString() + "   home page");
               return GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 13 * hfactor,
+                    crossAxisSpacing: 13 * wfactor,
+                    childAspectRatio: (wfactor * 165) / (300 * hfactor)),
                 itemBuilder: (context, index) {
-                  return GridTile(child: Text("2"));
+                  return GridTile(
+                      child: ShoppingProd(AllShoppingItems.items[index]));
                 },
                 itemCount: AllShoppingItems.items.length,
               );
@@ -68,7 +73,6 @@ class _homePageState extends State<homePage> {
   }
 }
 
-// ShoppingProd(AllShoppingItems.items[index])
 class ShoppingProd extends StatefulWidget {
   SingleItem s;
   ShoppingProd(this.s, {Key? key}) : super(key: key);
@@ -82,8 +86,8 @@ class _ShoppingProdState extends State<ShoppingProd> {
     double hfactor = MediaQuery.of(context).size.height / 716;
     double wfactor = MediaQuery.of(context).size.width / 375;
     return Container(
-      color: Colors.blue,
-      height: 270 * hfactor,
+      // color: Colors.blue,
+      height: 300 * hfactor,
       width: 165 * wfactor,
       child: Column(
         children: [
@@ -98,7 +102,7 @@ class _ShoppingProdState extends State<ShoppingProd> {
                 Text(widget.s.title),
                 Text(widget.s.category),
                 Row(
-                  children: [Text(widget.s.price.toString())],
+                  children: [Text(widget.s.price)],
                 )
               ],
             ),

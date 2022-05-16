@@ -9,24 +9,22 @@ class AllShoppingItems {
   static Future<void> getdata() async {
     // print("ran");
     var data =
-        await http.get(Uri.parse('https://fakestoreapi.com/products?limit=5'));
+        await http.get(Uri.parse('https://fakestoreapi.com/products?limit=15'));
 
     List<dynamic> processedData = json.decode(data.body) as List<dynamic>;
     log(processedData.toString());
     log("rannnnnn");
     items = processedData.map((e) {
-      log(e['rating']['rate'].toString()); //todo:: bug in 5th ite
-
       return SingleItem(
           id: e['id'],
           title: e['title'],
           description: e['description'],
           imageUrl: e['image'],
-          price: e['price'],
+          price: e['price'].toString(),
           category: e['category'],
-          rate: e['rating']['rate'],
+          rate: e['rating']['rate'].toString(),
           count: e['rating']['count']);
     }).toList();
-    log("thi ran here" + items.length.toString());
+    log("this ran here" + items.length.toString());
   }
 }
