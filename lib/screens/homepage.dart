@@ -3,6 +3,7 @@ import 'package:zupay_task/models/ShoppingItem.dart';
 import 'package:zupay_task/models/allitems.dart';
 import 'dart:developer';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -35,12 +36,7 @@ class _homePageState extends State<homePage> {
     double hfactor = MediaQuery.of(context).size.height / 716;
     double wfactor = MediaQuery.of(context).size.width / 375;
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 96 * hfactor,
-        child: Row(
-          children: [],
-        ),
-      ),
+      bottomNavigationBar: BottomBar(hfactor: hfactor, wfactor: wfactor),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(hfactor * 152),
         child: Container(
@@ -85,11 +81,12 @@ class _homePageState extends State<homePage> {
               else {
                 // log(AllShoppingItems.items.length.toString() + "   home page");
                 return GridView.builder(
+                  padding: EdgeInsets.all(20),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 13 * hfactor,
                       crossAxisSpacing: 13 * wfactor,
-                      childAspectRatio: (wfactor * 165) / (300 * hfactor)),
+                      childAspectRatio: (wfactor * 165) / (270 * hfactor)),
                   itemBuilder: (context, index) {
                     return GridTile(
                         child: ShoppingProd(
@@ -101,6 +98,55 @@ class _homePageState extends State<homePage> {
                 );
               }
             }),
+      ),
+    );
+  }
+}
+
+class BottomBar extends StatelessWidget {
+  const BottomBar({
+    Key? key,
+    required this.hfactor,
+    required this.wfactor,
+  }) : super(key: key);
+
+  final double hfactor;
+  final double wfactor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+      height: 96 * hfactor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(12),
+            height: 48 * hfactor,
+            width: 108 * wfactor,
+            decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(20)),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  "assets/icons/BottomHome.png",
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text("Home")
+              ],
+            ),
+          ),
+          SizedBox(width: 100),
+          Center(
+            child: Image.asset("assets/icons/ShoppingBag.jpg"),
+          ),
+        ],
       ),
     );
   }
@@ -132,7 +178,8 @@ class _ShoppingProdState extends State<ShoppingProd> {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                Text(widget.s.title),
+                Text(widget.s.title
+                    .substring(0, min(widget.s.title.length, 30))),
                 Text(widget.s.category),
                 Row(
                   children: [Text(widget.s.price)],
