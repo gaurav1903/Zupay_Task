@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:zupay_task/models/Cart.dart';
 import 'package:zupay_task/models/ShoppingItem.dart';
 import 'package:zupay_task/models/allitems.dart';
 import 'dart:developer';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'package:zupay_task/constants/routesTable.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AllShoppingItems(), child: homePage());
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AllShoppingItems>(
+            create: (context) => AllShoppingItems()),
+        ChangeNotifierProvider<Cart>(
+          create: (context) => Cart(),
+        )
+      ],
+      child: homePage(),
+    );
   }
 }
 
@@ -86,7 +96,7 @@ class _homePageState extends State<homePage> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 13 * hfactor,
                       crossAxisSpacing: 13 * wfactor,
-                      childAspectRatio: (wfactor * 165) / (270 * hfactor)),
+                      childAspectRatio: (wfactor * 165) / (290 * hfactor)),
                   itemBuilder: (context, index) {
                     return GridTile(
                         child: ShoppingProd(
@@ -143,8 +153,13 @@ class BottomBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: 100),
-          Center(
-            child: Image.asset("assets/icons/ShoppingBag.jpg"),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ScreenRef.cartScreen);
+            },
+            child: Center(
+              child: Image.asset("assets/icons/ShoppingBag.jpg"),
+            ),
           ),
         ],
       ),
@@ -166,7 +181,7 @@ class _ShoppingProdState extends State<ShoppingProd> {
     double wfactor = MediaQuery.of(context).size.width / 375;
     return Container(
       // color: Colors.blue,
-      height: 300 * hfactor,
+      height: 310 * hfactor,
       width: 165 * wfactor,
       child: Column(
         children: [
@@ -182,7 +197,14 @@ class _ShoppingProdState extends State<ShoppingProd> {
                     .substring(0, min(widget.s.title.length, 30))),
                 Text(widget.s.category),
                 Row(
-                  children: [Text(widget.s.price)],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(widget.s.price),
+                    Image.asset(
+                      "assets/icons/ShoppingBag.jpg",
+                      height: 20,
+                    )
+                  ],
                 )
               ],
             ),
