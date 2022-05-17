@@ -9,7 +9,7 @@ enum Col { Black, Blue, Red, Yellow, Purple, Green }
 
 class Cart with ChangeNotifier {
   static Map<String, List<dynamic>> cart = {};
-  int bill = 0;
+  static double bill = 0;
   // Colors colors=Colors.Black)
   void addItem(
       {required SingleItem item,
@@ -20,9 +20,11 @@ class Cart with ChangeNotifier {
     if (quantity == 0) {
       cart.remove(item.id.toString()); //TODO::DEBUG NOT WORKING
       log("removing");
+      calculateBill();
       notifyListeners();
     } else {
       cart[item.id.toString()] = [item, quantity, size, colors];
+      calculateBill();
       notifyListeners();
     }
   }
@@ -33,8 +35,13 @@ class Cart with ChangeNotifier {
 
   void calculateBill() {
     cart.forEach((key, value) {
-      bill = value[1] * int.parse((value[0] as SingleItem).price);
+      bill += value[1] * double.parse((value[0] as SingleItem).price);
     });
     notifyListeners();
+    log("bill calculted" + bill.toString());
+  }
+
+  double getBill() {
+    return bill;
   }
 }

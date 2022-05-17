@@ -52,6 +52,58 @@ class CartScreen extends StatelessWidget {
             centerTitle: true,
             automaticallyImplyLeading: false,
           )),
+      bottomSheet: Container(
+        height: 130,
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Total Price",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      ?.copyWith(fontSize: 16, color: Colors.black),
+                ),
+                Text(
+                  "\$ " +
+                      Provider.of<Cart>(context).getBill().toString().substring(
+                          0,
+                          min(
+                              10,
+                              Provider.of<Cart>(context, listen: false)
+                                  .getBill()
+                                  .toString()
+                                  .length)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      ?.copyWith(fontSize: 24, color: Colors.black),
+                )
+              ],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width - 50,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.black,
+              ),
+              child: Center(
+                child: Text(
+                  "Payment",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1
+                      ?.copyWith(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       body: Container(
         color: const Color(0xFFF3F4F6),
         child: ListView.builder(
@@ -132,7 +184,7 @@ class _CartItemState extends State<CartItem> {
                       ),
                       Text(widget.cartItemData[2].toString().substring(6)),
                       const SizedBox(
-                        width: 20,
+                        width: 18,
                       ),
                       Text(
                         "Color  ",
@@ -146,7 +198,7 @@ class _CartItemState extends State<CartItem> {
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(5)),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 18),
                       TinyBordered("-", widget.cartItemData),
                       const SizedBox(
                         width: 7,
