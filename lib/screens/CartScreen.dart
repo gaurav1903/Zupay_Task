@@ -22,15 +22,44 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double hfactor = MediaQuery.of(context).size.height / 716;
+    double wfactor = MediaQuery.of(context).size.width / 375;
     List<List<dynamic>> currentCart =
         Provider.of<Cart>(context).getCart().values.toList();
     return Scaffold(
-      appBar: AppBar(),
-      body: ListView.builder(
-        itemBuilder: (ctx, index) {
-          return CartItem(currentCart[index]);
-        },
-        itemCount: currentCart.length,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(hfactor * 100),
+          child: AppBar(
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(
+                Icons.chevron_left,
+                color: Colors.black,
+                size: 18,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            title: Text(
+              "Your Cart",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline1
+                  ?.copyWith(fontSize: 16, color: Colors.black),
+            ),
+            backgroundColor: Color(0xFFF3F4F6),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+          )),
+      body: Container(
+        color: Color(0xFFF3F4F6),
+        child: ListView.builder(
+          itemBuilder: (ctx, index) {
+            return CartItem(currentCart[index]);
+          },
+          itemCount: currentCart.length,
+        ),
       ),
     );
   }
@@ -74,9 +103,19 @@ class _CartItemState extends State<CartItem> {
                         width: 113 * wfactor,
                         child: Text(
                           s.title.substring(0, min(25, s.title.length)) + "...",
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(fontSize: 12, color: Colors.black),
                         ),
                       ),
-                      Text("\$ " + s.price.toString())
+                      Text(
+                        "\$ " + s.price.toString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline1
+                            ?.copyWith(fontSize: 14, color: Colors.black),
+                      )
                     ],
                   ),
                   SizedBox(
@@ -84,18 +123,42 @@ class _CartItemState extends State<CartItem> {
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Size : "),
+                      Text(
+                        "Size : ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(fontSize: 12, color: Color(0xFFAFBEC4)),
+                      ),
                       Text(widget.cartItemData[2].toString().substring(6)),
-                      Text("Color"),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "Color  ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(fontSize: 12, color: Color(0xFFAFBEC4)),
+                      ),
                       Container(
                         height: 14,
                         width: 14,
-                        color: Colors.black,
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(5)),
                       ),
+                      SizedBox(width: 20),
                       TinyBordered("-", widget.cartItemData),
+                      SizedBox(
+                        width: 7,
+                      ),
                       Text(widget.cartItemData[1].toString()),
+                      SizedBox(
+                        width: 7,
+                      ),
                       TinyBordered("+", widget.cartItemData),
                     ],
                   )
