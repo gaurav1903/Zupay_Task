@@ -7,7 +7,7 @@ enum Sizes { XS, S, M, L, XL, XXL }
 enum Col { Black, Blue, Red, Yellow, Purple, Green }
 
 class Cart with ChangeNotifier {
-  Map<String, List<dynamic>> cart = {};
+  static Map<String, List<dynamic>> cart = {};
   int bill = 0;
   // Colors colors=Colors.Black)
   void addItem(
@@ -17,6 +17,10 @@ class Cart with ChangeNotifier {
       Col colors = Col.Black}) {
     cart[item.id.toString()] = [item, quantity, size, colors];
     notifyListeners();
+  }
+
+  Map<String, List<dynamic>> getCart() {
+    return cart;
   }
 
   void calculateBill() {

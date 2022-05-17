@@ -200,9 +200,18 @@ class _ShoppingProdState extends State<ShoppingProd> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(widget.s.price),
-                    Image.asset(
-                      "assets/icons/ShoppingBag.jpg",
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        Provider.of<Cart>(context).addItem(item: widget.s);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Successfully added to cart"),
+                          duration: Duration(seconds: 2),
+                        ));
+                      },
+                      child: Image.asset(
+                        "assets/icons/ShoppingBag.jpg",
+                        height: 20,
+                      ),
                     )
                   ],
                 )
