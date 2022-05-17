@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zupay_task/models/Cart.dart';
 import 'package:zupay_task/models/ShoppingItem.dart';
 import 'package:zupay_task/models/allitems.dart';
-import 'dart:developer';
+
 import 'package:provider/provider.dart';
 import 'dart:math';
 import 'package:zupay_task/constants/routesTable.dart';
@@ -74,7 +74,10 @@ class _homePageState extends State<homePage> {
               Expanded(child: SizedBox()),
               Text(
                 "New Arrivals",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1
+                    ?.copyWith(fontSize: 14, color: Colors.black),
               ),
             ]),
           ),
@@ -149,7 +152,13 @@ class BottomBar extends StatelessWidget {
                 SizedBox(
                   width: 20,
                 ),
-                Text("Home")
+                Text(
+                  "Home",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(fontSize: 12),
+                )
               ],
             ),
           ),
@@ -193,17 +202,34 @@ class _ShoppingProdState extends State<ShoppingProd> {
           Container(
             padding: EdgeInsets.all(10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.s.title
-                    .substring(0, min(widget.s.title.length, 30))),
-                Text(widget.s.category),
+                Text(
+                  "Nicole Miller",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(fontSize: 10, color: Color(0xFF7154B8)),
+                ),
+                Text(
+                  widget.s.title.substring(0, min(widget.s.title.length, 25)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(fontSize: 12, color: Color(0xFF4B4A5A)),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.s.price),
+                    Text(
+                      "\$ " + widget.s.price,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1
+                          ?.copyWith(fontSize: 16, color: Colors.black),
+                    ),
                     GestureDetector(
                       onTap: () {
-                        dev.log("shopping cart button pressed");
                         Provider.of<Cart>(context, listen: false)
                             .addItem(item: widget.s);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -213,7 +239,7 @@ class _ShoppingProdState extends State<ShoppingProd> {
                       },
                       child: Image.asset(
                         "assets/icons/ShoppingBag.jpg",
-                        height: 20,
+                        height: 22,
                       ),
                     )
                   ],

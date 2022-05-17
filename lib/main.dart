@@ -18,6 +18,19 @@ class MyApp extends StatelessWidget {
         title: 'Zupay_Shop',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          textTheme: TextTheme(
+              headline1: TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w600,
+              ),
+              subtitle1: TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500,
+              ),
+              bodyText1: TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              )),
           primarySwatch: Colors.blue,
         ),
         routes: routeTable);
