@@ -18,13 +18,13 @@ class Cart with ChangeNotifier {
       Col colors = Col.Black}) {
     log("add item " + quantity.toString());
     if (quantity == 0) {
-      cart.remove(item.id); //TODO::DEBUG NOT WORKING
+      cart.remove(item.id.toString()); //TODO::DEBUG NOT WORKING
       log("removing");
       notifyListeners();
-      return;
+    } else {
+      cart[item.id.toString()] = [item, quantity, size, colors];
+      notifyListeners();
     }
-    cart[item.id.toString()] = [item, quantity, size, colors];
-    notifyListeners();
   }
 
   Map<String, List<dynamic>> getCart() {
