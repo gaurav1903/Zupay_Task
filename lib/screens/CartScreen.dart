@@ -128,7 +128,7 @@ class _TinyBorderedState extends State<TinyBordered> {
         else {
           Provider.of<Cart>(context, listen: false).addItem(
               item: widget.cartItemData[0],
-              quantity: widget.cartItemData[1] + 1);
+              quantity: widget.cartItemData[1] - 1);
         }
       },
       child: Container(

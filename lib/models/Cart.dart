@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zupay_task/models/ShoppingItem.dart';
+import 'dart:developer';
 
 enum Sizes { XS, S, M, L, XL, XXL }
 
@@ -15,6 +16,13 @@ class Cart with ChangeNotifier {
       int quantity = 1,
       Sizes size = Sizes.M,
       Col colors = Col.Black}) {
+    log("add item " + quantity.toString());
+    if (quantity == 0) {
+      cart.remove(item.id); //TODO::DEBUG NOT WORKING
+      log("removing");
+      notifyListeners();
+      return;
+    }
     cart[item.id.toString()] = [item, quantity, size, colors];
     notifyListeners();
   }
