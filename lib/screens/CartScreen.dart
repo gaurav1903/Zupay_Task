@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zupay_task/models/Cart.dart';
@@ -46,57 +47,99 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
+    double hfactor = MediaQuery.of(context).size.height / 716;
+    double wfactor = MediaQuery.of(context).size.width / 375;
     SingleItem s = widget.cartItemData[0] as SingleItem;
     return Container(
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(25),
-      child: Row(children: [
-        Image.network((widget.cartItemData[0] as SingleItem).imageUrl),
-        Column(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Row(
-              children: [
-                Text(
-                  s.title.substring(0, min(30, s.title.length)),
-                ),
-                Text(s.price)
-              ],
+            Image.network((widget.cartItemData[0] as SingleItem).imageUrl,
+                height: 80 * hfactor, width: 80 * wfactor),
+            SizedBox(
+              width: 20,
             ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text("Size  " + widget.cartItemData[2].toString().substring(4)),
-                Text("Color "),
-                Container(
-                  height: 14,
-                  width: 14,
-                  color: Colors.black,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Provider.of<Cart>(context)
-                        .addItem(item: s, quantity: widget.cartItemData[1] + 1);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text("+"),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 113 * wfactor,
+                        child: Text(
+                          s.title.substring(0, min(25, s.title.length)) + "...",
+                        ),
+                      ),
+                      Text("\$ " + s.price.toString())
+                    ],
                   ),
-                ),
-                Text(widget.cartItemData[1].toString()),
-                GestureDetector(
-                  onTap: () {
-                    Provider.of<Cart>(context)
-                        .addItem(item: s, quantity: widget.cartItemData[1] - 1);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text("-"),
+                  SizedBox(
+                    height: 25,
                   ),
-                ),
-              ],
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Size : "),
+                      Text(widget.cartItemData[2].toString().substring(6)),
+                      Text("Color"),
+                      Container(
+                        height: 14,
+                        width: 14,
+                        color: Colors.black,
+                      ),
+                      TinyBordered("-", widget.cartItemData),
+                      Text(widget.cartItemData[1].toString()),
+                      TinyBordered("+", widget.cartItemData),
+                    ],
+                  )
+                ],
+              ),
             )
-          ],
-        )
-      ]),
+          ]),
+    );
+  }
+}
+
+class TinyBordered extends StatefulWidget {
+  String s = "";
+  List<dynamic> cartItemData;
+  TinyBordered(this.s, this.cartItemData);
+
+  @override
+  State<TinyBordered> createState() => _TinyBorderedState();
+}
+
+class _TinyBorderedState extends State<TinyBordered> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (widget.s == "+")
+          Provider.of<Cart>(context, listen: false).addItem(
+              item: widget.cartItemData[0],
+              quantity: widget.cartItemData[1] + 1);
+        else {
+          Provider.of<Cart>(context, listen: false).addItem(
+              item: widget.cartItemData[0],
+              quantity: widget.cartItemData[1] + 1);
+        }
+      },
+      child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0xFFAFBEC4),
+            ),
+          ),
+          height: 24,
+          width: 24,
+          child: Center(child: Text(widget.s))),
     );
   }
 }

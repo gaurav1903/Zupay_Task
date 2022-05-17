@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import 'package:zupay_task/constants/routesTable.dart';
+import 'dart:developer' as dev;
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -202,7 +203,9 @@ class _ShoppingProdState extends State<ShoppingProd> {
                     Text(widget.s.price),
                     GestureDetector(
                       onTap: () {
-                        Provider.of<Cart>(context).addItem(item: widget.s);
+                        dev.log("shopping cart button pressed");
+                        Provider.of<Cart>(context, listen: false)
+                            .addItem(item: widget.s);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text("Successfully added to cart"),
                           duration: Duration(seconds: 2),
