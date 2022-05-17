@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
           create: (context) => Cart(),
         )
       ],
-      child: homePage(),
+      child: const homePage(),
     );
   }
 }
@@ -51,8 +51,8 @@ class _homePageState extends State<homePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(hfactor * 152),
         child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
+          decoration: const BoxDecoration(
+              gradient: const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [Color(0xFFF3F4F6), Color(0x00F3F4F6)])),
@@ -71,7 +71,7 @@ class _homePageState extends State<homePage> {
                   Image.asset("assets/icons/appbar_search.jpg")
                 ],
               ),
-              Expanded(child: SizedBox()),
+              const Expanded(child: SizedBox()),
               Text(
                 "New Arrivals",
                 style: Theme.of(context)
@@ -91,11 +91,11 @@ class _homePageState extends State<homePage> {
             future: gettingdata,
             builder: (context, snap) {
               if (snap.connectionState != ConnectionState.done)
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               else {
                 // log(AllShoppingItems.items.length.toString() + "   home page");
                 return GridView.builder(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 13 * hfactor,
@@ -130,13 +130,13 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
       height: 96 * hfactor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             height: 48 * hfactor,
             width: 108 * wfactor,
             decoration: BoxDecoration(
@@ -149,7 +149,7 @@ class BottomBar extends StatelessWidget {
                   "assets/icons/BottomHome.png",
                   height: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Text(
@@ -162,7 +162,7 @@ class BottomBar extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 100),
+          const SizedBox(width: 100),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(ScreenRef.cartScreen);
@@ -200,7 +200,7 @@ class _ShoppingProdState extends State<ShoppingProd> {
             height: hfactor * 180,
           ),
           Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -209,14 +209,14 @@ class _ShoppingProdState extends State<ShoppingProd> {
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1
-                      ?.copyWith(fontSize: 10, color: Color(0xFF7154B8)),
+                      ?.copyWith(fontSize: 10, color: const Color(0xFF7154B8)),
                 ),
                 Text(
                   widget.s.title.substring(0, min(widget.s.title.length, 25)),
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1
-                      ?.copyWith(fontSize: 12, color: Color(0xFF4B4A5A)),
+                      ?.copyWith(fontSize: 12, color: const Color(0xFF4B4A5A)),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -232,9 +232,10 @@ class _ShoppingProdState extends State<ShoppingProd> {
                       onTap: () {
                         Provider.of<Cart>(context, listen: false)
                             .addItem(item: widget.s);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Successfully added to cart"),
-                          duration: Duration(seconds: 2),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: const Text("Successfully added to cart"),
+                          duration: const Duration(seconds: 2),
                         ));
                       },
                       child: Image.asset(

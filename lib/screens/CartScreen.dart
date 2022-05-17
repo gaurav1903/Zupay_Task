@@ -12,7 +12,7 @@ class CartScreenProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Cart>(
       create: (context) => Cart(),
-      child: CartScreen(),
+      child: const CartScreen(),
     );
   }
 }
@@ -32,7 +32,7 @@ class CartScreen extends StatelessWidget {
           child: AppBar(
             elevation: 0,
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.chevron_left,
                 color: Colors.black,
                 size: 18,
@@ -48,12 +48,12 @@ class CartScreen extends StatelessWidget {
                   .headline1
                   ?.copyWith(fontSize: 16, color: Colors.black),
             ),
-            backgroundColor: Color(0xFFF3F4F6),
+            backgroundColor: const Color(0xFFF3F4F6),
             centerTitle: true,
             automaticallyImplyLeading: false,
           )),
       body: Container(
-        color: Color(0xFFF3F4F6),
+        color: const Color(0xFFF3F4F6),
         child: ListView.builder(
           itemBuilder: (ctx, index) {
             return CartItem(currentCart[index]);
@@ -81,14 +81,14 @@ class _CartItemState extends State<CartItem> {
     SingleItem s = widget.cartItemData[0] as SingleItem;
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(25),
+      padding: const EdgeInsets.all(25),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
             Image.network((widget.cartItemData[0] as SingleItem).imageUrl,
                 height: 80 * hfactor, width: 80 * wfactor),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Expanded(
@@ -118,7 +118,7 @@ class _CartItemState extends State<CartItem> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(
@@ -127,21 +127,17 @@ class _CartItemState extends State<CartItem> {
                     children: [
                       Text(
                         "Size : ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(fontSize: 12, color: Color(0xFFAFBEC4)),
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            fontSize: 12, color: const Color(0xFFAFBEC4)),
                       ),
                       Text(widget.cartItemData[2].toString().substring(6)),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Text(
                         "Color  ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(fontSize: 12, color: Color(0xFFAFBEC4)),
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            fontSize: 12, color: const Color(0xFFAFBEC4)),
                       ),
                       Container(
                         height: 14,
@@ -150,13 +146,13 @@ class _CartItemState extends State<CartItem> {
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(5)),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       TinyBordered("-", widget.cartItemData),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       Text(widget.cartItemData[1].toString()),
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       TinyBordered("+", widget.cartItemData),
@@ -197,7 +193,7 @@ class _TinyBorderedState extends State<TinyBordered> {
       child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Color(0xFFAFBEC4),
+              color: const Color(0xFFAFBEC4),
             ),
           ),
           height: 24,
